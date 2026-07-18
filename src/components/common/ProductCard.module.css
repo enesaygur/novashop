@@ -1,0 +1,43 @@
+.card {
+  display: flex;
+  flex-direction: column;
+
+  text-decoration: none;
+  color: inherit;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.image {
+  width: 100%;
+  height: 220px;
+
+  object-fit: cover;
+}
+
+.content {
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: .5rem;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.brand {
+  color: gray;
+}

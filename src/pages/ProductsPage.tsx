@@ -1,6 +1,7 @@
 import ProductCard from "../components/common/ProductCard";
 import { useProducts } from "../hooks/useProducts";
 import type { Product } from "../types/Product";
+import styles from "./ProductsPage.module.css";
 
 function ProductsPage() {
   const { data, isPending, error } = useProducts();
@@ -10,9 +11,11 @@ function ProductsPage() {
   return (
     <>
       <h1>Products</h1>
-      {data?.map((product: Product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+      <div className={styles.products}>
+        {data?.map((product: Product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </>
   );
 }
