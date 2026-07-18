@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
-import { getProduction } from "../services/api/products";
+import { useProducts } from "../hooks/useProducts";
 
 function ProductsPage() {
-  const [products, setProducts] = useState([]);
+  const { data, isPending, error } = useProducts();
 
-  useEffect(() => {
-    async function fetchProducts() {
-      const data = await getProduction();
-      setProducts(data);
-    }
-    fetchProducts();
-  }, []);
+  if (isPending) return <h1>Loading...</h1>;
+  if (error) return <h2>Something went wrong</h2>;
   return (
     <>
       <h1>Products</h1>
-      {products.map((product: any) => (
+      {data?.map((product: any) => (
         <p key={product.id}>{product.title}</p>
       ))}
     </>
