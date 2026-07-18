@@ -1,4 +1,6 @@
+import ProductCard from "../components/common/ProductCard";
 import { useProducts } from "../hooks/useProducts";
+import type { Product } from "../types/Product";
 
 function ProductsPage() {
   const { data, isPending, error } = useProducts();
@@ -8,8 +10,8 @@ function ProductsPage() {
   return (
     <>
       <h1>Products</h1>
-      {data?.map((product: any) => (
-        <p key={product.id}>{product.title}</p>
+      {data?.map((product: Product) => (
+        <ProductCard key={product.id} product={product} />
       ))}
     </>
   );
