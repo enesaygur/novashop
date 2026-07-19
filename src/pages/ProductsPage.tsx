@@ -1,4 +1,3 @@
-import { useState } from "react";
 import EmptyState from "../components/common/EmptyState";
 import ErrorMessage from "../components/common/ErrorMessage";
 import Loader from "../components/common/Loader";
@@ -23,8 +22,9 @@ function ProductsPage() {
     error: categoriesError,
   } = useCategories();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState("");
+  const search = searchParams.get("search") || "";
   const selectedCategory = searchParams.get("category") || "";
+
   const filteredProducts =
     products?.filter((product: Product) => {
       const matchesSearch = product.title
@@ -43,7 +43,18 @@ function ProductsPage() {
     <>
       <div className={styles.container}>
         <h1 className={styles.title}>Products</h1>
-        <SearchBar value={search} onChange={setSearch} />
+        <SearchBar
+          value={search}
+          onChange={(value) => {
+            const params = new URLSearchParams(searchParams);
+            if (value) {
+              params.set("search", value);
+            } else {
+              params.delete("search");
+            }
+            setSearchParams(params);
+          }}
+        />
         <CategoryFilter
           categories={categories}
           selectedCategory={selectedCategory}
