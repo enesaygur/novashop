@@ -9,6 +9,7 @@ import SearchBar from "../components/common/SearchBar";
 import { useCategories } from "../hooks/useCategories";
 import { useSearchParams } from "react-router";
 import CategoryFilter from "../components/common/CategoryFilter";
+import SortSelect from "../components/common/SortSelect";
 
 function ProductsPage() {
   const {
@@ -24,6 +25,7 @@ function ProductsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get("search") || "";
   const selectedCategory = searchParams.get("category") || "";
+  const sort = searchParams.get("sort") || "";
 
   const filteredProducts =
     products?.filter((product: Product) => {
@@ -35,6 +37,28 @@ function ProductsPage() {
 
       return matchesSearch && matchesCategory;
     }) ?? [];
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sort) {
+      case "name-asc":
+        return a.title.localeCompare(b.title);
+
+      case "name-desc":
+        return b.title.localeCompare(a.title);
+
+      case "price-asc":
+        return a.price - b.price;
+
+      case "price-desc":
+        return b.price - a.price;
+
+      case "rating-asc":
+        return a.rating - b.rating;
+
+      default:
+        return 0;
+    }
+  });
 
   if (productsPending || categoriesPending) return <Loader />;
   if (productsError || categoriesError) return <ErrorMessage />;
@@ -62,11 +86,25 @@ function ProductsPage() {
             setSearchParams(value ? { category: value } : {});
           }}
         />
-        {filteredProducts.length == 0 ? (
+        <SortSelect
+          value={sort}
+          onChange={(value) => {
+            const params = new URLSearchParams(searchParams);
+
+            if (value) {
+              params.set("sort", value);
+            } else {
+              params.delete("sort");
+            }
+
+            setSearchParams(params);
+          }}
+        />
+        {sortedProducts.length == 0 ? (
           <EmptyState message="No products match your search." />
         ) : (
           <div className={styles.grid}>
-            {filteredProducts.map((product: Product) => (
+            {sortedProducts.map((product: Product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
