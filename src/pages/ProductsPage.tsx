@@ -10,6 +10,7 @@ import { useCategories } from "../hooks/useCategories";
 import { useSearchParams } from "react-router";
 import CategoryFilter from "../components/common/CategoryFilter";
 import SortSelect from "../components/common/SortSelect";
+import { useFilteredProducts } from "../hooks/useFilteredProducts";
 
 function ProductsPage() {
   const {
@@ -27,37 +28,11 @@ function ProductsPage() {
   const selectedCategory = searchParams.get("category") || "";
   const sort = searchParams.get("sort") || "";
 
-  const filteredProducts =
-    products?.filter((product: Product) => {
-      const matchesSearch = product.title
-        .toLowerCase()
-        .includes(search.toLowerCase());
-      const matchesCategory =
-        selectedCategory === "" || product.category === selectedCategory;
-
-      return matchesSearch && matchesCategory;
-    }) ?? [];
-
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sort) {
-      case "name-asc":
-        return a.title.localeCompare(b.title);
-
-      case "name-desc":
-        return b.title.localeCompare(a.title);
-
-      case "price-asc":
-        return a.price - b.price;
-
-      case "price-desc":
-        return b.price - a.price;
-
-      case "rating-asc":
-        return a.rating - b.rating;
-
-      default:
-        return 0;
-    }
+  const filtredProducts = useFilteredProducts({
+    products: products ?? [],
+    search,
+    category: selectedCategory,
+    sort,
   });
 
   if (productsPending || categoriesPending) return <Loader />;
@@ -100,11 +75,11 @@ function ProductsPage() {
             setSearchParams(params);
           }}
         />
-        {sortedProducts.length == 0 ? (
+        {filtredProducts.length == 0 ? (
           <EmptyState message="No products match your search." />
         ) : (
           <div className={styles.grid}>
-            {sortedProducts.map((product: Product) => (
+            {filtredProducts.map((product: Product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>
