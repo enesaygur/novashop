@@ -6,10 +6,15 @@ export interface CartState {
   items: CartItem[];
 }
 
-export type CartAction = {
-  type: typeof CART_ACTIONS.ADD_ITEM;
-  payload: Product;
-};
+export type CartAction =
+  | {
+      type: typeof CART_ACTIONS.ADD_ITEM;
+      payload: Product;
+    }
+  | {
+      type: typeof CART_ACTIONS.REMOVE_ITEM;
+      paylaod: number;
+    };
 
 export const initialState: CartState = {
   items: [],
@@ -35,6 +40,12 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
       return {
         ...state,
         items: [...state.items, { product: action.payload, quantity: 1 }],
+      };
+    }
+    case CART_ACTIONS.REMOVE_ITEM: {
+      return {
+        ...state,
+        items: state.items.filter((item) => item.product.id !== action.paylaod),
       };
     }
     default:

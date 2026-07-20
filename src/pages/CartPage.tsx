@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { useCart } from "../hooks/useCart";
 import styles from "./CartPage.module.css";
 function CartPage() {
-  const { items } = useCart();
+  const { items, removeItem } = useCart();
   return (
     <div className={styles.container}>
       <h1>Shopping Cart</h1>
@@ -18,6 +18,9 @@ function CartPage() {
                 <p>${item.product.price}</p>
                 <p>Quantity: {item.quantity}</p>
               </div>
+              <button type="button" onClick={() => removeItem(item.product.id)}>
+                Remove
+              </button>
             </div>
           ))}
         </div>
