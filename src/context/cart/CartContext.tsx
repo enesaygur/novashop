@@ -8,6 +8,8 @@ interface CartContextType {
   items: CartItem[];
   addItem: (product: Product) => void;
   removeItem: (productId: number) => void;
+  increaseQuantity: (productId: number) => void;
+  decreaseQuantity: (productId: number) => void;
 }
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -27,8 +29,24 @@ export function CartProvider({ children }: CartProviderProps) {
     dispatch({ type: CART_ACTIONS.REMOVE_ITEM, paylaod: productId });
   }
 
+  function increaseQuantity(productId: number) {
+    dispatch({ type: CART_ACTIONS.INCREASE_QUANTITY, payload: productId });
+  }
+
+  function decreaseQuantity(productId: number) {
+    dispatch({ type: CART_ACTIONS.DECREASE_QUANTITY, payload: productId });
+  }
+
   return (
-    <CartContext.Provider value={{ items: state.items, addItem, removeItem }}>
+    <CartContext.Provider
+      value={{
+        items: state.items,
+        addItem,
+        removeItem,
+        increaseQuantity,
+        decreaseQuantity,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

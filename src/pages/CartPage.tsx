@@ -2,7 +2,8 @@ import { Link } from "react-router";
 import { useCart } from "../hooks/useCart";
 import styles from "./CartPage.module.css";
 function CartPage() {
-  const { items, removeItem } = useCart();
+  const { items, removeItem, increaseQuantity, decreaseQuantity } = useCart();
+  console.log(items);
   return (
     <div className={styles.container}>
       <h1>Shopping Cart</h1>
@@ -16,7 +17,15 @@ function CartPage() {
               <div>
                 <h3>{item.product.title}</h3>
                 <p>${item.product.price}</p>
-                <p>Quantity: {item.quantity}</p>
+                <div className={styles.quantityControls}>
+                  <button onClick={() => decreaseQuantity(item.product.id)}>
+                    -
+                  </button>
+                  <p>Quantity: {item.quantity}</p>
+                  <button onClick={() => increaseQuantity(item.product.id)}>
+                    +
+                  </button>
+                </div>
               </div>
               <button type="button" onClick={() => removeItem(item.product.id)}>
                 Remove

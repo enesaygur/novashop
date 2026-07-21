@@ -14,6 +14,14 @@ export type CartAction =
   | {
       type: typeof CART_ACTIONS.REMOVE_ITEM;
       paylaod: number;
+    }
+  | {
+      type: typeof CART_ACTIONS.INCREASE_QUANTITY;
+      payload: number;
+    }
+  | {
+      type: typeof CART_ACTIONS.DECREASE_QUANTITY;
+      payload: number;
     };
 
 export const initialState: CartState = {
@@ -46,6 +54,35 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
       return {
         ...state,
         items: state.items.filter((item) => item.product.id !== action.paylaod),
+      };
+    }
+
+    case CART_ACTIONS.INCREASE_QUANTITY: {
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.product.id === action.payload
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
+            : item,
+        ),
+      };
+    }
+    case CART_ACTIONS.DECREASE_QUANTITY: {
+      return {
+        ...state,
+        items: state.items
+          .map((item) =>
+            item.product.id === action.payload
+              ? {
+                  ...item,
+                  quantity: item.quantity - 1,
+                }
+              : item,
+          )
+          .filter((item) => item.quantity > 0),
       };
     }
     default:
