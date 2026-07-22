@@ -1,6 +1,7 @@
 import type { CartItem } from "../../types/CartItem";
 import type { Product } from "../../types/Product";
 import { CART_ACTIONS } from "./cartActions";
+import { getCart } from "./cartStorage";
 
 export interface CartState {
   items: CartItem[];
@@ -13,7 +14,7 @@ export type CartAction =
     }
   | {
       type: typeof CART_ACTIONS.REMOVE_ITEM;
-      paylaod: number;
+      payload: number;
     }
   | {
       type: typeof CART_ACTIONS.INCREASE_QUANTITY;
@@ -25,7 +26,7 @@ export type CartAction =
     };
 
 export const initialState: CartState = {
-  items: [],
+  items: getCart(),
 };
 
 export function cartReducer(state: CartState, action: CartAction): CartState {
@@ -53,7 +54,7 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
     case CART_ACTIONS.REMOVE_ITEM: {
       return {
         ...state,
-        items: state.items.filter((item) => item.product.id !== action.paylaod),
+        items: state.items.filter((item) => item.product.id !== action.payload),
       };
     }
 

@@ -1,8 +1,9 @@
-import { createContext, useReducer, type ReactNode } from "react";
+import { createContext, useEffect, useReducer, type ReactNode } from "react";
 import type { CartItem } from "../../types/CartItem";
 import type { Product } from "../../types/Product";
 import { cartReducer, initialState } from "./CartReducer";
 import { CART_ACTIONS } from "./cartActions";
+import { saveCart } from "./cartStorage";
 
 interface CartContextType {
   items: CartItem[];
@@ -26,7 +27,7 @@ export function CartProvider({ children }: CartProviderProps) {
   }
 
   function removeItem(productId: number) {
-    dispatch({ type: CART_ACTIONS.REMOVE_ITEM, paylaod: productId });
+    dispatch({ type: CART_ACTIONS.REMOVE_ITEM, payload: productId });
   }
 
   function increaseQuantity(productId: number) {
@@ -36,6 +37,10 @@ export function CartProvider({ children }: CartProviderProps) {
   function decreaseQuantity(productId: number) {
     dispatch({ type: CART_ACTIONS.DECREASE_QUANTITY, payload: productId });
   }
+
+  useEffect(() => {
+    saveCart(state.items);
+  }, [state.items]);
 
   return (
     <CartContext.Provider
