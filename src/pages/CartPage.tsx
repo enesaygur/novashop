@@ -3,10 +3,12 @@ import { useCart } from "../hooks/useCart";
 import styles from "./CartPage.module.css";
 function CartPage() {
   const { items, removeItem, increaseQuantity, decreaseQuantity } = useCart();
-  const total = items.reduce(
+  const subtotal = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0,
   );
+  const shipping = subtotal > 0 ? 10 : 0;
+  const total = subtotal + shipping;
   return (
     <div className={styles.container}>
       <h1>Shopping Cart</h1>
@@ -37,8 +39,23 @@ function CartPage() {
           ))}
         </div>
       )}
-      <div className={styles.total}>
-        <h2>Total: ${total.toFixed(2)}</h2>
+      <div className={styles.summary}>
+        <div>
+          <span>Subtotal</span>
+          <span>${subtotal.toFixed(2)}</span>
+        </div>
+
+        <div>
+          <span>Shipping</span>
+          <span>${shipping.toFixed(2)}</span>
+        </div>
+
+        <div className={styles.total}>
+          <strong>Total</strong>
+          <strong>${total.toFixed(2)}</strong>
+        </div>
+
+        <button type="button">Checkout</button>
       </div>
       <Link to="/products">Continue Shopping</Link>
     </div>

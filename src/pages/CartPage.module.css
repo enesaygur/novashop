@@ -51,10 +51,28 @@
   font-weight: 600;
 }
 
-.total {
+.summary {
+  max-width: 400px;
+  margin: 2rem 0 0 auto;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.summary > div {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 2rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.summary .total {
   padding-top: 1rem;
   border-top: 1px solid #ddd;
+  font-size: 1.2rem;
+}
+
+.summary button {
+  width: 100%;
+  padding: 0.75rem;
+  cursor: pointer;
 }
