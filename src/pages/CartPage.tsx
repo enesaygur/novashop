@@ -55,7 +55,9 @@ function CartPage() {
           <strong>${total.toFixed(2)}</strong>
         </div>
 
-        <button type="button">Checkout</button>
+        <Link to="/checkout" className={styles.checkoutButton}>
+          Checkout
+        </Link>
       </div>
       <Link to="/products">Continue Shopping</Link>
     </div>
