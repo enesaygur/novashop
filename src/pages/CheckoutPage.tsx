@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useCart } from "../hooks/useCart";
 import styles from "./CheckoutPage.module.css";
+import CheckoutForm from "../components/checkout/CheckoutForm";
 function CheckoutPage() {
   const { items } = useCart();
   const subtotal = items.reduce(
@@ -9,9 +10,12 @@ function CheckoutPage() {
   );
   const shipping = subtotal > 0 ? 10 : 0;
   const total = subtotal + shipping;
+
   return (
     <div className={styles.container}>
       <h1>Checkout</h1>
+
+      <CheckoutForm />
 
       <div className={styles.summary}>
         <h2>Order Summary</h2>
