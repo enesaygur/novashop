@@ -23,6 +23,9 @@ export type CartAction =
   | {
       type: typeof CART_ACTIONS.DECREASE_QUANTITY;
       payload: number;
+    }
+  | {
+      type: typeof CART_ACTIONS.CLEAR_CART;
     };
 
 export const initialState: CartState = {
@@ -84,6 +87,12 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
               : item,
           )
           .filter((item) => item.quantity > 0),
+      };
+    }
+    case CART_ACTIONS.CLEAR_CART: {
+      return {
+        ...state,
+        items: [],
       };
     }
     default:

@@ -11,6 +11,7 @@ interface CartContextType {
   removeItem: (productId: number) => void;
   increaseQuantity: (productId: number) => void;
   decreaseQuantity: (productId: number) => void;
+  clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextType | null>(null);
@@ -38,6 +39,10 @@ export function CartProvider({ children }: CartProviderProps) {
     dispatch({ type: CART_ACTIONS.DECREASE_QUANTITY, payload: productId });
   }
 
+  function clearCart() {
+    dispatch({ type: CART_ACTIONS.CLEAR_CART });
+  }
+
   useEffect(() => {
     saveCart(state.items);
   }, [state.items]);
@@ -50,6 +55,7 @@ export function CartProvider({ children }: CartProviderProps) {
         removeItem,
         increaseQuantity,
         decreaseQuantity,
+        clearCart,
       }}
     >
       {children}

@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import styles from "./CheckoutForm.module.css";
 import { checkoutSchema } from "../../schema/checkoutSchema";
+import { useCart } from "../../hooks/useCart";
+import { useNavigate } from "react-router";
 
 function CheckoutForm() {
+  const navigate = useNavigate();
+  const { clearCart } = useCart();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -49,7 +53,8 @@ function CheckoutForm() {
 
     setErrors({});
 
-    console.log(result.data);
+    clearCart();
+    navigate("/order-confirmation");
   }
   return (
     <form className={styles.form} onSubmit={handleSubmit}>

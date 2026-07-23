@@ -1,0 +1,19 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.container h1 {
+  margin-bottom: 1rem;
+}
+
+.container p {
+  margin-bottom: 0.5rem;
+}
+
+.container a {
+  display: inline-block;
+  margin-top: 2rem;
+}
