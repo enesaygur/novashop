@@ -11,6 +11,7 @@ import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
+import OrdersPage from "../pages/OrdersPage";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "order-confirmation",
         element: <OrderConfirmationPage />,
+      },
+      {
+        path: "orders",
+        element: <OrdersPage />,
       },
       {
         path: "login",
