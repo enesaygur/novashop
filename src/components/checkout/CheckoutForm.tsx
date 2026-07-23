@@ -3,10 +3,11 @@ import styles from "./CheckoutForm.module.css";
 import { checkoutSchema } from "../../schema/checkoutSchema";
 import { useCart } from "../../hooks/useCart";
 import { useNavigate } from "react-router";
+import { saveOrder } from "../../utils/orderStorage";
 
 function CheckoutForm() {
   const navigate = useNavigate();
-  const { clearCart } = useCart();
+  const { items, clearCart } = useCart();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -50,6 +51,23 @@ function CheckoutForm() {
 
       return;
     }
+    const subtotal = items.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0,
+    );
+    const shipping = subtotal > 0 ? 10 : 0;
+    const total = subtotal + shipping;
+    const order = {
+      id: crypto.randomUUID(),
+      items,
+      customer: result.data,
+      subtotal,
+      shipping,
+      total,
+      createdAt: new Date().toISOString(),
+    };
+
+    saveOrder(order);
 
     setErrors({});
 
