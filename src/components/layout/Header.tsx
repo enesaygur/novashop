@@ -38,6 +38,14 @@ function Header() {
           Cart
         </NavLink>
         <NavLink
+          to="/orders"
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
+        >
+          Orders
+        </NavLink>
+        <NavLink
           to="/login"
           className={({ isActive }) =>
             isActive ? `${styles.link} ${styles.active}` : styles.link
