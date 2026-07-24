@@ -4,6 +4,18 @@ import styles from "./CheckoutPage.module.css";
 import CheckoutForm from "../components/checkout/CheckoutForm";
 function CheckoutPage() {
   const { items } = useCart();
+
+  if (items.length === 0) {
+    return (
+      <div className={styles.empty}>
+        <h1>Your cart is empty</h1>
+
+        <p>Add some products before proceeding to checkout</p>
+        <Link to="/products">Continue Shopping</Link>
+      </div>
+    );
+  }
+
   const subtotal = items.reduce(
     (sum, item) => sum + item.product.price * item.quantity,
     0,

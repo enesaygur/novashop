@@ -26,3 +26,21 @@
   border-top: 1px solid #ddd;
   font-size: 1.2rem;
 }
+.empty {
+  max-width: 600px;
+  margin: 4rem auto;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.empty h1 {
+  margin-bottom: 1rem;
+}
+
+.empty p {
+  margin-bottom: 2rem;
+}
+
+.empty a {
+  display: inline-block;
+}
