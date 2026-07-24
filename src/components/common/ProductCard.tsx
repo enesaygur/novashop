@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import type { Product } from "../../types/Product";
 import styles from "./ProductCard.module.css";
 import { useCart } from "../../hooks/useCart";
+import { useWishlist } from "../../hooks/useWishlist";
 type ProductCardProps = {
   product: Product;
 };
 function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
+  const { addItem: addToWishlist } = useWishlist();
   return (
     <article className={styles.card}>
       <Link to={`/products/${product.id}`} className={styles.link}>
@@ -25,6 +27,9 @@ function ProductCard({ product }: ProductCardProps) {
       </Link>
       <button type="button" onClick={() => addItem(product)}>
         Add to cart
+      </button>
+      <button type="button" onClick={() => addToWishlist(product)}>
+        Add to wishlist
       </button>
     </article>
   );
