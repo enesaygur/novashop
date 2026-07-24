@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Order } from "../types/Order";
 import { getOrders } from "../utils/orderStorage";
 import styles from "./OrdersPage.module.css";
+import { Link } from "react-router";
 
 function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -17,7 +18,11 @@ function OrdersPage() {
       ) : (
         <div className={styles.orders}>
           {orders.map((order) => (
-            <div key={order.id} className={styles.order}>
+            <Link
+              key={order.id}
+              to={`/orders/${order.id}`}
+              className={styles.order}
+            >
               <div className={styles.header}>
                 <div>
                   <h2>Order #{order.id.slice(0, 8)}</h2>
@@ -28,33 +33,8 @@ function OrdersPage() {
                 <strong>${order.total.toFixed(2)}</strong>
               </div>
 
-              <div className={styles.items}>
-                {order.items.map((item) => (
-                  <div key={item.product.id} className={styles.item}>
-                    <img
-                      src={item.product.thumbnail}
-                      alt={item.product.title}
-                    />
-
-                    <div>
-                      <h3>{item.product.title}</h3>
-
-                      <p>Quantity: {item.quantity}</p>
-
-                      <p>${(item.product.price * item.quantity).toFixed(2)}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className={styles.summary}>
-                <p>Subtotal: ${order.subtotal.toFixed(2)}</p>
-
-                <p>Shipping: ${order.shipping.toFixed(2)}</p>
-
-                <strong>Total: ${order.total.toFixed(2)}</strong>
-              </div>
-            </div>
+              <p>Items: {order.items.length}</p>
+            </Link>
           ))}
         </div>
       )}

@@ -12,6 +12,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 import OrdersPage from "../pages/OrdersPage";
+import OrderDetailsPage from "../pages/OrderDetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "orders",
         element: <OrdersPage />,
+      },
+      {
+        path: "orders/:orderId",
+        element: <OrderDetailsPage />,
       },
       {
         path: "login",
