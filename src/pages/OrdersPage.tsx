@@ -3,6 +3,7 @@ import type { Order } from "../types/Order";
 import { getOrders } from "../utils/orderStorage";
 import styles from "./OrdersPage.module.css";
 import { Link } from "react-router";
+import EmptyState from "../components/common/EmptyState";
 
 function OrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -14,7 +15,7 @@ function OrdersPage() {
       <h1 className={styles.title}>Order History</h1>
 
       {orders.length === 0 ? (
-        <p className={styles.empty}>No orders yet.</p>
+        <EmptyState message="You have no orders yet" />
       ) : (
         <div className={styles.orders}>
           {orders.map((order) => (
