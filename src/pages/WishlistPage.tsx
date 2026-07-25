@@ -2,9 +2,11 @@ import { Link } from "react-router";
 import EmptyState from "../components/common/EmptyState";
 import { useWishlist } from "../hooks/useWishlist";
 import styles from "./WishlistPage.module.css";
+import { useCart } from "../hooks/useCart";
 
 function WishlistPage() {
   const { items, removeItem } = useWishlist();
+  const { addItem } = useCart();
   if (items.length === 0)
     return <EmptyState message="Your wishlist is empty" />;
   return (
@@ -25,6 +27,7 @@ function WishlistPage() {
                 <p className={styles.price}>${product.price}</p>
               </div>
             </Link>
+            <button onClick={() => addItem(product)}>Add to cart</button>
             <button onClick={() => removeItem(product.id)}>Remove</button>
           </div>
         ))}
