@@ -14,6 +14,7 @@ import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 import OrdersPage from "../pages/OrdersPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
+import RegisterPage from "../pages/RegisterPage";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
+      },
+      {
+        path: "register",
+        element: <RegisterPage />,
       },
       {
         element: <ProtectedRoute />,

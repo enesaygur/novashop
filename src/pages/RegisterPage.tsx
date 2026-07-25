@@ -1,13 +1,13 @@
-import { useState } from "react";
-import styles from "./LoginPage.module.css";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
+import styles from "./RegisterPage.module.css";
 import { useAuth } from "../hooks/useAuth";
-function LoginPage() {
+import type React from "react";
+import { useState } from "react";
+function RegisterPage() {
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
-  const { login } = useAuth();
+  const { register } = useAuth();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -16,9 +16,14 @@ function LoginPage() {
     event.preventDefault();
 
     try {
-      login(email, password);
+      register({
+        id: crypto.randomUUID(),
+        name,
+        email,
+        password,
+      });
 
-      navigate(from);
+      navigate("/login");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -28,18 +33,29 @@ function LoginPage() {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h1>Login</h1>
-        {error && (
-          <div className={styles.error}>
-            <p>{error}</p>
-          </div>
-        )}
+        <h1>Register</h1>
+
+        {error && <div className={styles.error}>{error}</div>}
+
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(event) => {
+            setName(event.target.value);
+            setError("");
+          }}
+          required
+        />
+
         <label htmlFor="email">Email</label>
         <input
           type="email"
           id="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+          required
         />
 
         <label htmlFor="password">Password</label>
@@ -48,14 +64,16 @@ function LoginPage() {
           id="password"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
+          required
         />
-        <button type="submit">Login</button>
+        <button type="submit">Register</button>
+
         <p>
-          Don't have an account? <Link to="/register">Register</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>
     </div>
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
