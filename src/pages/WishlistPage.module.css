@@ -59,3 +59,27 @@
   background: #2563eb;
   color: #fff;
 }
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .image {
+    height: 200px;
+  }
+
+  .card button {
+    width: 100%;
+  }
+}
