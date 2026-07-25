@@ -92,3 +92,48 @@
 .checkoutButton:hover {
   opacity: 0.9;
 }
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .item {
+    flex-wrap: wrap;
+  }
+
+  .image {
+    width: 80px;
+    height: 80px;
+  }
+
+  .quantityControls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .summary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .quantityControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .quantityControls button {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}

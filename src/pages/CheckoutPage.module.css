@@ -44,3 +44,30 @@
 .empty a {
   display: inline-block;
 }
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .summary {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container h1 {
+    font-size: 1.75rem;
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .row,
+  .total {
+    gap: 1rem;
+  }
+}
