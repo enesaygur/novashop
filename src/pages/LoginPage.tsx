@@ -1,9 +1,11 @@
 import { useState } from "react";
 import styles from "./LoginPage.module.css";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const { login } = useAuth();
 
   const [name, setName] = useState("");
@@ -17,7 +19,7 @@ function LoginPage() {
       email,
     });
 
-    navigate("/");
+    navigate(from);
   }
   return (
     <div className={styles.container}>

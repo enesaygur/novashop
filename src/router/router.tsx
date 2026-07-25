@@ -13,6 +13,7 @@ import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 import OrdersPage from "../pages/OrdersPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -36,28 +37,33 @@ const router = createBrowserRouter([
         element: <CartPage />,
       },
       {
-        path: "wishlist",
-        element: <WishlistPage />,
-      },
-      {
-        path: "checkout",
-        element: <CheckoutPage />,
-      },
-      {
         path: "order-confirmation",
         element: <OrderConfirmationPage />,
       },
       {
-        path: "orders",
-        element: <OrdersPage />,
-      },
-      {
-        path: "orders/:orderId",
-        element: <OrderDetailsPage />,
-      },
-      {
         path: "login",
         element: <LoginPage />,
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "checkout",
+            element: <CheckoutPage />,
+          },
+          {
+            path: "orders",
+            element: <OrdersPage />,
+          },
+          {
+            path: "orders/:orderId",
+            element: <OrderDetailsPage />,
+          },
+          {
+            path: "wishlist",
+            element: <WishlistPage />,
+          },
+        ],
       },
     ],
   },
