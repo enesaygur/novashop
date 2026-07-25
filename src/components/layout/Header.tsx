@@ -1,6 +1,8 @@
 import { NavLink } from "react-router";
 import styles from "./Header.module.css";
+import { useAuth } from "../../hooks/useAuth";
 function Header() {
+  const { user, logout } = useAuth();
   return (
     <header className={styles.header}>
       <h2 className={styles.logo}>NovaShop</h2>
@@ -45,14 +47,21 @@ function Header() {
         >
           Orders
         </NavLink>
-        <NavLink
-          to="/login"
-          className={({ isActive }) =>
-            isActive ? `${styles.link} ${styles.active}` : styles.link
-          }
-        >
-          Login
-        </NavLink>
+        {user ? (
+          <>
+            <span>Hello, {user.name}</span>
+            <button onClick={logout}>Logout</button>
+          </>
+        ) : (
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? `${styles.link} ${styles.active}` : styles.link
+            }
+          >
+            Login
+          </NavLink>
+        )}
       </nav>
     </header>
   );
