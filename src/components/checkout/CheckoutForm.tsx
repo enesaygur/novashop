@@ -4,10 +4,12 @@ import { checkoutSchema } from "../../validations/checkoutSchema";
 import { useCart } from "../../hooks/useCart";
 import { useNavigate } from "react-router";
 import { saveOrder } from "../../utils/orderStorage";
+import { useAuth } from "../../hooks/useAuth";
 
 function CheckoutForm() {
   const navigate = useNavigate();
   const { items, clearCart } = useCart();
+  const { user } = useAuth();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -59,6 +61,7 @@ function CheckoutForm() {
     const total = subtotal + shipping;
     const order = {
       id: crypto.randomUUID(),
+      userId: user!.id,
       items,
       customer: result.data,
       subtotal,

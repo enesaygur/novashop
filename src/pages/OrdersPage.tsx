@@ -4,9 +4,12 @@ import { getOrders } from "../utils/orderStorage";
 import styles from "./OrdersPage.module.css";
 import { Link } from "react-router";
 import EmptyState from "../components/common/EmptyState";
+import { useAuth } from "../hooks/useAuth";
 
 function OrdersPage() {
+  const { user } = useAuth();
   const [orders, setOrders] = useState<Order[]>([]);
+  const userOrders = orders.filter((order) => order.userId === user?.id);
   useEffect(() => {
     setOrders(getOrders());
   }, []);
@@ -18,7 +21,7 @@ function OrdersPage() {
         <EmptyState message="You have no orders yet" />
       ) : (
         <div className={styles.orders}>
-          {orders.map((order) => (
+          {userOrders.map((order) => (
             <Link
               key={order.id}
               to={`/orders/${order.id}`}
