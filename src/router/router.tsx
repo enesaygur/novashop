@@ -15,6 +15,7 @@ import OrdersPage from "../pages/OrdersPage";
 import OrderDetailsPage from "../pages/OrderDetailsPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import RegisterPage from "../pages/RegisterPage";
+import AdminRoute from "../components/auth/AdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,15 @@ const router = createBrowserRouter([
             element: <WishlistPage />,
           },
         ],
+      },
+      {
+        element:<AdminRoute/>,
+        children:[
+          {
+            path:"/admin",
+            element: <div>Admin Page</div>
+          }
+        ]
       },
     ],
   },

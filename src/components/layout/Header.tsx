@@ -47,6 +47,14 @@ function Header() {
         >
           Orders
         </NavLink>
+        <NavLink
+          to="/admin"
+          className={({ isActive }) =>
+            isActive ? `${styles.link} ${styles.active}` : styles.link
+          }
+        >
+          Admin
+        </NavLink>
         {user ? (
           <>
             <span>Hello, {user.name}</span>

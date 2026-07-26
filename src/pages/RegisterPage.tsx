@@ -28,6 +28,7 @@ function RegisterPage() {
         name,
         email,
         password,
+        role: "user",
       });
 
       navigate("/login");
