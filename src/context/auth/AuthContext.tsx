@@ -9,6 +9,7 @@ import {
   saveUser,
   saveUsers,
 } from "./authStorage";
+import { AuthError } from "./authErrors";
 
 interface AuthContextType {
   user: User | null;
@@ -33,7 +34,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     );
 
     if (!existingUser) {
-      throw new Error("Invalid email or password.");
+      throw new AuthError("Invalid email or password.");
     }
 
     saveUser(existingUser);
@@ -53,7 +54,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
     );
 
     if (userAlreadyExists) {
-      throw new Error("User already exists");
+      throw new AuthError("User already exists");
     }
 
     saveUsers([...users, user]);

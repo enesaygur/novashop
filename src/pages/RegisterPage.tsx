@@ -4,6 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 import type React from "react";
 import { useState } from "react";
 import { registerSchema } from "../validations/authSchemas";
+import { AuthError } from "../context/auth/authErrors";
 function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -31,7 +32,7 @@ function RegisterPage() {
 
       navigate("/login");
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AuthError) {
         setError(error.message);
       }
     }

@@ -3,6 +3,7 @@ import styles from "./LoginPage.module.css";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { loginSchema } from "../validations/authSchemas";
+import { AuthError } from "../context/auth/authErrors";
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +28,7 @@ function LoginPage() {
 
       navigate(from);
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AuthError) {
         setError(error.message);
       }
     }
