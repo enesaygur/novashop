@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./LoginPage.module.css";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
+import { loginSchema } from "../validations/authSchemas";
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,6 +15,12 @@ function LoginPage() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    const result = loginSchema.safeParse({ email, password });
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+      return;
+    }
 
     try {
       login(email, password);

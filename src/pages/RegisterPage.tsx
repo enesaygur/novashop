@@ -3,6 +3,7 @@ import styles from "./RegisterPage.module.css";
 import { useAuth } from "../hooks/useAuth";
 import type React from "react";
 import { useState } from "react";
+import { registerSchema } from "../validations/authSchemas";
 function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -14,6 +15,11 @@ function RegisterPage() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    const result = registerSchema.safeParse({ name, email, password });
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+      return;
+    }
 
     try {
       register({

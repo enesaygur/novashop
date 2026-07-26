@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "./CheckoutForm.module.css";
-import { checkoutSchema } from "../../schema/checkoutSchema";
+import { checkoutSchema } from "../../validations/checkoutSchema";
 import { useCart } from "../../hooks/useCart";
 import { useNavigate } from "react-router";
 import { saveOrder } from "../../utils/orderStorage";
