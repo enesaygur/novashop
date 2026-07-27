@@ -16,6 +16,7 @@ import OrderDetailsPage from "../pages/OrderDetailsPage";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import RegisterPage from "../pages/RegisterPage";
 import AdminRoute from "../components/auth/AdminRoute";
+import AdminDashboardPage from "../pages/AdminDashboardPage";
 
 const router = createBrowserRouter([
   {
@@ -72,13 +73,13 @@ const router = createBrowserRouter([
         ],
       },
       {
-        element:<AdminRoute/>,
-        children:[
+        element: <AdminRoute />,
+        children: [
           {
-            path:"/admin",
-            element: <div>Admin Page</div>
-          }
-        ]
+            path: "/admin",
+            element: <AdminDashboardPage />,
+          },
+        ],
       },
     ],
   },
