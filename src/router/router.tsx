@@ -17,6 +17,7 @@ import ProtectedRoute from "../components/auth/ProtectedRoute";
 import RegisterPage from "../pages/RegisterPage";
 import AdminRoute from "../components/auth/AdminRoute";
 import AdminDashboardPage from "../pages/AdminDashboardPage";
+import AdminProductsPage from "../pages/AdminProductsPage";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
           {
             path: "/admin",
             element: <AdminDashboardPage />,
+          },
+          {
+            path: "/admin/products",
+            element: <AdminProductsPage />,
           },
         ],
       },

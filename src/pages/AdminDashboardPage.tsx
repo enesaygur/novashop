@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { getUsers } from "../context/auth/authStorage";
 import { getOrders } from "../utils/orderStorage";
 import styles from "./AdminDashboardPage.module.css";
+import { Link } from "react-router";
 function AdminDashboardPage() {
   const users = getUsers();
   const orders = getOrders();
@@ -18,6 +19,7 @@ function AdminDashboardPage() {
   return (
     <div className={styles.container}>
       <h1>Admin Dashboard</h1>
+      <Link to="/admin/products">Manage Products</Link>
 
       <div className={styles.stats}>
         <div className={styles.card}>
