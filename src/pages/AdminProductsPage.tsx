@@ -13,6 +13,8 @@ function AdminProductsPage() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("default");
 
   useEffect(() => {
     async function loadProducts() {
@@ -29,6 +31,8 @@ function AdminProductsPage() {
     }
     loadProducts();
   }, []);
+
+  const categories = [...new Set(products.map((product) => product.category))];
 
   function handleCreate(product: Product) {
     const updateProducts = [product, ...products];
@@ -60,9 +64,26 @@ function AdminProductsPage() {
     setIsFormOpen(false);
   }
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch = product.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === "all" || product.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortBy === "price-asc") {
+        return a.price - b.price;
+      }
+
+      if (sortBy === "price-desc") {
+        return b.price - a.price;
+      }
+      return 0;
+    });
 
   return (
     <div className={styles.container}>
@@ -84,6 +105,24 @@ function AdminProductsPage() {
           onChange={(e) => setSearch(e.target.value)}
           className={styles.searchInput}
         />
+      </div>
+      <div className={styles.filters}>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="all">All Categories</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category.charAt(0).toUpperCase() + category.slice(1)}
+            </option>
+          ))}
+        </select>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="default">Default</option>
+          <option value="price-asc">Price (Low → High)</option>
+          <option value="price-desc">Price (High → Low)</option>
+        </select>
       </div>
       {isFormOpen && (
         <div className={styles.formWrapper}>
@@ -146,6 +185,7 @@ function AdminProductsPage() {
                         onClick={() => {
                           setEditingProduct(product);
                           setIsFormOpen(true);
+                          window.scrollTo({ top: 200, behavior: "smooth" });
                         }}
                       >
                         Edit
