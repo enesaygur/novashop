@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import type { Product } from "../../types/Product";
 import styles from "./ProductForm.module.css";
 
@@ -54,7 +54,7 @@ function ProductForm({
       discountPercentage: Number(form.discountPercentage) || 0,
       rating: Number(form.rating) || 0,
       stock: Number(form.stock) || 0,
-      brand: form.brand.trim(),
+      brand: form.brand.trim() || "novashop",
       category: form.category.trim(),
       thumbnail: form.thumbnail.trim(),
     };
@@ -72,6 +72,11 @@ function ProductForm({
       [field]: value,
     }));
   }
+
+  useEffect(() => {
+    setForm(buildInitialState(initialValues));
+  }, [initialValues]);
+
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <h2>{initialValues ? "Edit Product" : "Create Product"}</h2>
@@ -121,6 +126,7 @@ function ProductForm({
             step="1"
             value={form.stock}
             onChange={(e) => updateField("stock", e.target.value)}
+            required
           />
         </div>
       </div>

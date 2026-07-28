@@ -122,6 +122,15 @@
   color: #6b7280;
 }
 
+.editButton {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.editButton:hover {
+  background: #1d4ed8;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;

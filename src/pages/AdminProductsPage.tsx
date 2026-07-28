@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import type { Product } from "../types/Product";
 import {
   getAdminProducts,
@@ -11,6 +11,7 @@ function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     async function loadProducts() {
@@ -28,9 +29,23 @@ function AdminProductsPage() {
     loadProducts();
   }, []);
 
-  function handleCreate(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  function handleCreate(product: Product) {
+    const updateProducts = [product, ...products];
+    setProducts(updateProducts);
+    saveAdminProducts(updateProducts);
+    setIsFormOpen(false);
   }
+
+  function handleUpdate(updatedProduct: Product) {
+    const updatedProducts = products.map((product) =>
+      product.id === updatedProduct.id ? updatedProduct : product,
+    );
+    setProducts(updatedProducts);
+    saveAdminProducts(updatedProducts);
+    setEditingProduct(null);
+    setIsFormOpen(false);
+  }
+
   function handleDelete(productId: number) {
     const updatedProducts = products.filter(
       (product) => product.id !== productId,
@@ -38,6 +53,12 @@ function AdminProductsPage() {
     setProducts(updatedProducts);
     saveAdminProducts(updatedProducts);
   }
+
+  function handleCloseForm() {
+    setEditingProduct(null);
+    setIsFormOpen(false);
+  }
+  
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -52,8 +73,10 @@ function AdminProductsPage() {
       {isFormOpen && (
         <div className={styles.formWrapper}>
           <ProductForm
-            onSubmit={handleCreate}
-            onCancel={() => setIsFormOpen(false)}
+            initialValues={editingProduct ?? undefined}
+            submitLabel={editingProduct ? "Save Changes" : "Create Product"}
+            onSubmit={editingProduct ? handleUpdate : handleCreate}
+            onCancel={handleCloseForm}
           />
         </div>
       )}
@@ -103,6 +126,15 @@ function AdminProductsPage() {
 
                   <td>
                     <div className={styles.actions}>
+                      <button
+                        className={styles.editButton}
+                        onClick={() => {
+                            setEditingProduct(product);
+                            setIsFormOpen(true);
+                          }}
+                      >
+                        Edit
+                      </button>
                       <button
                         className={styles.deleteButton}
                         onClick={() => handleDelete(product.id)}
