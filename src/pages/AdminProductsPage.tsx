@@ -12,6 +12,7 @@ function AdminProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     async function loadProducts() {
@@ -58,17 +59,31 @@ function AdminProductsPage() {
     setEditingProduct(null);
     setIsFormOpen(false);
   }
-  
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <h1>Admin Products</h1>
+
         <button
           onClick={() => setIsFormOpen(true)}
           className={styles.addButton}
         >
           Add Product
         </button>
+      </div>
+      <div className={styles.search}>
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className={styles.searchInput}
+        />
       </div>
       {isFormOpen && (
         <div className={styles.formWrapper}>
@@ -100,7 +115,7 @@ function AdminProductsPage() {
             </thead>
 
             <tbody>
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <tr key={product.id}>
                   <td>
                     <div className={styles.productCell}>
@@ -129,9 +144,9 @@ function AdminProductsPage() {
                       <button
                         className={styles.editButton}
                         onClick={() => {
-                            setEditingProduct(product);
-                            setIsFormOpen(true);
-                          }}
+                          setEditingProduct(product);
+                          setIsFormOpen(true);
+                        }}
                       >
                         Edit
                       </button>

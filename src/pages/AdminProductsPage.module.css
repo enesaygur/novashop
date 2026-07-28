@@ -131,6 +131,24 @@
   background: #1d4ed8;
 }
 
+.searchContainer {
+  margin-bottom: 1.5rem;
+}
+
+.searchInput {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.85rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 1rem;
