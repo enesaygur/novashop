@@ -44,13 +44,29 @@ function ProductForm({
   const [form, setForm] = useState<ProductFormState>(() =>
     buildInitialState(initialValues),
   );
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof ProductFormState, string>>
+  >({});
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     const validationResult = productSchema.safeParse({ ...form });
     if (!validationResult.success) {
-      alert(validationResult.error.issues[0].message);
+      const fieldErrors = validationResult.error.flatten().fieldErrors;
+      setErrors({
+        title: fieldErrors.title?.[0],
+        description: fieldErrors.description?.[0],
+        price: fieldErrors.price?.[0],
+        discountPercentage: fieldErrors.discountPercentage?.[0],
+        rating: fieldErrors.rating?.[0],
+        stock: fieldErrors.stock?.[0],
+        brand: fieldErrors.brand?.[0],
+        category: fieldErrors.category?.[0],
+        thumbnail: fieldErrors.thumbnail?.[0],
+      });
       return;
     }
+    setErrors({});
     const newProduct: Product = {
       id: initialValues?.id ?? Date.now(),
       title: form.title.trim(),
@@ -95,6 +111,7 @@ function ProductForm({
           onChange={(e) => updateField("title", e.target.value)}
           required
         />
+        {errors.title && <p className={styles.error}>{errors.title}</p>}
       </div>
 
       <div className={styles.group}>
@@ -106,6 +123,9 @@ function ProductForm({
           onChange={(e) => updateField("description", e.target.value)}
           required
         />
+        {errors.description && (
+          <p className={styles.error}>{errors.description}</p>
+        )}
       </div>
 
       <div className={styles.row}>
@@ -120,6 +140,7 @@ function ProductForm({
             onChange={(e) => updateField("price", e.target.value)}
             required
           />
+          {errors.price && <p className={styles.error}>{errors.price}</p>}
         </div>
 
         <div className={styles.group}>
@@ -133,6 +154,7 @@ function ProductForm({
             onChange={(e) => updateField("stock", e.target.value)}
             required
           />
+          {errors.stock && <p className={styles.error}>{errors.stock}</p>}
         </div>
       </div>
 
@@ -146,6 +168,7 @@ function ProductForm({
             onChange={(e) => updateField("brand", e.target.value)}
             required
           />
+          {errors.brand && <p className={styles.error}>{errors.brand}</p>}
         </div>
 
         <div className={styles.group}>
@@ -157,6 +180,7 @@ function ProductForm({
             onChange={(e) => updateField("category", e.target.value)}
             required
           />
+          {errors.category && <p className={styles.error}>{errors.category}</p>}
         </div>
       </div>
 
@@ -169,6 +193,7 @@ function ProductForm({
           onChange={(e) => updateField("thumbnail", e.target.value)}
           required
         />
+        {errors.thumbnail && <p className={styles.error}>{errors.thumbnail}</p>}
       </div>
 
       <div className={styles.actions}>
