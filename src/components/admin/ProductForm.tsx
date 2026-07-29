@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import type { Product } from "../../types/Product";
 import styles from "./ProductForm.module.css";
+import { productSchema } from "../../validations/productSchema";
 
 type ProductFormState = {
   title: string;
@@ -45,7 +46,11 @@ function ProductForm({
   );
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
+    const validationResult = productSchema.safeParse({ ...form });
+    if (!validationResult.success) {
+      alert(validationResult.error.issues[0].message);
+      return;
+    }
     const newProduct: Product = {
       id: initialValues?.id ?? Date.now(),
       title: form.title.trim(),
