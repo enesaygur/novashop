@@ -15,6 +15,8 @@ function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("default");
+  const ITEMS_PER_PAGE = 5;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     async function loadProducts() {
@@ -85,6 +87,16 @@ function AdminProductsPage() {
       return 0;
     });
 
+  const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
+  const paginatedProducts = filteredProducts.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE,
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, selectedCategory, sortBy]);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -154,7 +166,7 @@ function AdminProductsPage() {
             </thead>
 
             <tbody>
-              {filteredProducts.map((product) => (
+              {paginatedProducts.map((product) => (
                 <tr key={product.id}>
                   <td>
                     <div className={styles.productCell}>
@@ -202,6 +214,25 @@ function AdminProductsPage() {
               ))}
             </tbody>
           </table>
+          <div className={styles.pagination}>
+            <button
+              onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            <span>
+              Page {currentPage} / {totalPages || 1}
+            </span>
+            <button
+              onClick={() =>
+                setCurrentPage((page) => Math.min(page + 1, totalPages))
+              }
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
       )}
     </div>
