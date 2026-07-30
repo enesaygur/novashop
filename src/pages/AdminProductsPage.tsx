@@ -7,6 +7,7 @@ import {
 import { getProducts } from "../services/api/products";
 import styles from "./AdminProductsPage.module.css";
 import ProductForm from "../components/admin/ProductForm";
+import Modal from "../components/common/Modal";
 function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,6 +16,7 @@ function AdminProductsPage() {
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("default");
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null);
   const ITEMS_PER_PAGE = 5;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -204,7 +206,7 @@ function AdminProductsPage() {
                       </button>
                       <button
                         className={styles.deleteButton}
-                        onClick={() => handleDelete(product.id)}
+                        onClick={() => setProductToDelete(product)}
                       >
                         Delete
                       </button>
@@ -214,6 +216,28 @@ function AdminProductsPage() {
               ))}
             </tbody>
           </table>
+          <Modal
+            isOpen={productToDelete !== null}
+            title="Delete Product"
+            onClose={() => setProductToDelete(null)}
+          >
+            <p>
+              Are you sure you want to delete{" "}
+              <strong>{productToDelete?.title}</strong>?
+            </p>
+            <div className={styles.modalActions}>
+              <button onClick={() => setProductToDelete(null)}>Cancel</button>
+              <button
+                onClick={() => {
+                  if (!productToDelete) return;
+                  handleDelete(productToDelete.id);
+                  setProductToDelete(null);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          </Modal>
           <div className={styles.pagination}>
             <button
               onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
