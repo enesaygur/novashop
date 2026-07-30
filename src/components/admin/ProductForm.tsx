@@ -193,6 +193,16 @@ function ProductForm({
           onChange={(e) => updateField("thumbnail", e.target.value)}
           required
         />
+        <div className={styles.thumbnail}>
+          {form.thumbnail && (
+            <img
+              src={form.thumbnail}
+              alt="Preview"
+              className={styles.previewImage}
+              onError={(e) => (e.currentTarget.style.display = "none")}
+            />
+          )}
+        </div>
         {errors.thumbnail && <p className={styles.error}>{errors.thumbnail}</p>}
       </div>
 

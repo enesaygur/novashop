@@ -35,7 +35,9 @@
   border-radius: 10px;
   font: inherit;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
   background: #fff;
 }
 
@@ -87,6 +89,26 @@
 
 .actions button[type="button"]:hover {
   background: #d1d5db;
+}
+
+.previewWrapper {
+  margin-top: 1rem;
+}
+
+.previewImage {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  background: #fff;
+}
+
+.previewText {
+  color: #777;
+  font-size: 0.9rem;
 }
 
 @media (max-width: 768px) {
