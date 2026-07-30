@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./styles/global.css";
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
         <WishlistProvider>
           <CartProvider>
             <RouterProvider router={router} />
+            <Toaster position="top-right" reverseOrder={false} />
           </CartProvider>
         </WishlistProvider>
       </AuthProvider>

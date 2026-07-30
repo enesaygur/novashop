@@ -8,6 +8,7 @@ import { getProducts } from "../services/api/products";
 import styles from "./AdminProductsPage.module.css";
 import ProductForm from "../components/admin/ProductForm";
 import Modal from "../components/common/Modal";
+import { toast } from "react-hot-toast";
 function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -43,6 +44,7 @@ function AdminProductsPage() {
     setProducts(updateProducts);
     saveAdminProducts(updateProducts);
     setIsFormOpen(false);
+    toast.success("Product created successfully");
   }
 
   function handleUpdate(updatedProduct: Product) {
@@ -53,6 +55,7 @@ function AdminProductsPage() {
     saveAdminProducts(updatedProducts);
     setEditingProduct(null);
     setIsFormOpen(false);
+    toast.success("Product updated successfully");
   }
 
   function handleDelete(productId: number) {
@@ -61,6 +64,7 @@ function AdminProductsPage() {
     );
     setProducts(updatedProducts);
     saveAdminProducts(updatedProducts);
+    toast.success("Product deleted successfully");
   }
 
   function handleCloseForm() {
