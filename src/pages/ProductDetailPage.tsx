@@ -2,6 +2,7 @@ import { useParams } from "react-router";
 import { useProduct } from "../hooks/useProduct";
 import { useCart } from "../hooks/useCart";
 import styles from "./ProductDetailPage.module.css";
+import Button from "../components/common/Button/Button";
 
 function ProductDetailPage() {
   const { id } = useParams();
@@ -31,9 +32,9 @@ function ProductDetailPage() {
 
         <p className={styles.stock}>Stock: {data.stock}</p>
 
-        <button onClick={() => addItem(data)} disabled={data.stock === 0}>
+        <Button onClick={() => addItem(data)} disabled={data.stock === 0}>
           {data.stock === 0 ? "Out of Stock" : "Add to Cart"}
-        </button>
+        </Button>
       </div>
     </div>
   );

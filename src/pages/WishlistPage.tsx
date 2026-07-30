@@ -3,6 +3,8 @@ import EmptyState from "../components/common/EmptyState";
 import { useWishlist } from "../hooks/useWishlist";
 import styles from "./WishlistPage.module.css";
 import { useCart } from "../hooks/useCart";
+import Button from "../components/common/Button/Button";
+import Card from "../components/common/Card/Card";
 
 function WishlistPage() {
   const { items, removeItem } = useWishlist();
@@ -15,7 +17,7 @@ function WishlistPage() {
 
       <div className={styles.grid}>
         {items.map((product) => (
-          <div key={product.id} className={styles.card}>
+          <Card key={product.id}>
             <Link to={`/product/${product.id}`} className={styles.link}>
               <img
                 src={product.thumbnail}
@@ -27,9 +29,9 @@ function WishlistPage() {
                 <p className={styles.price}>${product.price}</p>
               </div>
             </Link>
-            <button onClick={() => addItem(product)}>Add to cart</button>
-            <button onClick={() => removeItem(product.id)}>Remove</button>
-          </div>
+            <Button onClick={() => addItem(product)}>Add to cart</Button>
+            <Button variant="danger" onClick={() => removeItem(product.id)}>Remove</Button>
+          </Card>
         ))}
       </div>
     </div>

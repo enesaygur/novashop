@@ -1,12 +1,14 @@
+import Input from "./Input/Input";
+
 interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
 }
 function SearchBar({ value, onChange }: SearchBarProps) {
   return (
-    <input
+    <Input style={{width:"450px"}}
+    placeholder="Search products..."
       type="text"
-      placeholder="Search products..."
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />

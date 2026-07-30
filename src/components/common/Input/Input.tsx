@@ -3,14 +3,15 @@ import styles from "./Input.module.css";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
+  tyoe?: string;
   error?: string;
 }
 
-function Input({ label, error, className = "", ...props }: InputProps) {
+function Input({ label, type="text", error, className = "", ...props }: InputProps) {
   return (
     <div className={styles.group}>
       {label && <label>{label}</label>}
-      <input className={`${styles.input} ${className}`} {...props} />
+      <input type={type} className={`${styles.input} ${className}`} {...props} />
       {error && <p className={styles.error}>{error}</p>}
     </div>
   );

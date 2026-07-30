@@ -2,6 +2,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { Product } from "../../types/Product";
 import styles from "./ProductForm.module.css";
 import { productSchema } from "../../validations/productSchema";
+import Input from "../common/Input/Input";
+import Button from "../common/Button/Button";
 
 type ProductFormState = {
   title: string;
@@ -101,97 +103,62 @@ function ProductForm({
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <h2>{initialValues ? "Edit Product" : "Create Product"}</h2>
-
-      <div className={styles.group}>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          value={form.title}
-          onChange={(e) => updateField("title", e.target.value)}
-          required
+      <Input
+        label="Title"
+        name="title"
+        value={form.title}
+        onChange={(e) => updateField("title", e.target.value)}
+        error={errors.title}
+      />
+      <Input
+        label="Description"
+        name="description"
+        value={form.description}
+        onChange={(e) => updateField("description", e.target.value)}
+        error={errors.description}
+      />
+      <div className={styles.row}>
+        <Input
+          label="Price"
+          name="price"
+          value={form.price}
+          onChange={(e) => updateField("price", e.target.value)}
+          error={errors.price}
         />
-        {errors.title && <p className={styles.error}>{errors.title}</p>}
-      </div>
-
-      <div className={styles.group}>
-        <label htmlFor="description">Description</label>
-        <textarea
-          id="description"
-          rows={4}
-          value={form.description}
-          onChange={(e) => updateField("description", e.target.value)}
-          required
+        <Input
+          label="Stock"
+          name="stock"
+          value={form.stock}
+          onChange={(e) => updateField("stock", e.target.value)}
+          error={errors.stock}
         />
-        {errors.description && (
-          <p className={styles.error}>{errors.description}</p>
-        )}
       </div>
 
       <div className={styles.row}>
-        <div className={styles.group}>
-          <label htmlFor="price">Price</label>
-          <input
-            type="number"
-            id="price"
-            min="0"
-            step="0.01"
-            value={form.price}
-            onChange={(e) => updateField("price", e.target.value)}
-            required
-          />
-          {errors.price && <p className={styles.error}>{errors.price}</p>}
-        </div>
+        <Input
+          label="Brand"
+          name="brand"
+          value={form.brand}
+          onChange={(e) => updateField("brand", e.target.value)}
+          error={errors.brand}
+        />
 
-        <div className={styles.group}>
-          <label htmlFor="stock">Stock</label>
-          <input
-            type="number"
-            id="stock"
-            min="0"
-            step="1"
-            value={form.stock}
-            onChange={(e) => updateField("stock", e.target.value)}
-            required
-          />
-          {errors.stock && <p className={styles.error}>{errors.stock}</p>}
-        </div>
-      </div>
-
-      <div className={styles.row}>
-        <div className={styles.group}>
-          <label htmlFor="brand">Brand</label>
-          <input
-            id="brand"
-            type="text"
-            value={form.brand}
-            onChange={(e) => updateField("brand", e.target.value)}
-            required
-          />
-          {errors.brand && <p className={styles.error}>{errors.brand}</p>}
-        </div>
-
-        <div className={styles.group}>
-          <label htmlFor="category">Category</label>
-          <input
-            id="category"
-            type="text"
-            value={form.category}
-            onChange={(e) => updateField("category", e.target.value)}
-            required
-          />
-          {errors.category && <p className={styles.error}>{errors.category}</p>}
-        </div>
+        <Input
+          label="Category"
+          name="category"
+          value={form.category}
+          onChange={(e) => updateField("category", e.target.value)}
+          error={errors.category}
+        />
       </div>
 
       <div className={styles.group}>
-        <label htmlFor="thumbnail">Thumbnail URL</label>
-        <input
-          id="thumbnail"
-          type="text"
+        <Input
+          label="Thumbnail"
+          name="thumbnail"
           value={form.thumbnail}
           onChange={(e) => updateField("thumbnail", e.target.value)}
-          required
+          error={errors.thumbnail}
         />
         <div className={styles.thumbnail}>
           {form.thumbnail && (
@@ -203,14 +170,13 @@ function ProductForm({
             />
           )}
         </div>
-        {errors.thumbnail && <p className={styles.error}>{errors.thumbnail}</p>}
       </div>
 
       <div className={styles.actions}>
-        <button type="submit">{submitLabel}</button>
-        <button type="button" onClick={onCancel}>
+        <Button type="submit">{submitLabel}</Button>
+        <Button variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   );

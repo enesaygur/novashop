@@ -1,3 +1,4 @@
+import Button from "./Button/Button";
 import styles from "./Modal.module.css";
 import type { ReactNode } from "react";
 
@@ -17,9 +18,9 @@ function Modal({ isOpen, title, children, onClose }: ModalProps) {
       <div className={styles.modal}>
         <h2>{title}</h2>
         {children}
-        <button className={styles.closeButton} onClick={onClose}>
-          Close
-        </button>
+        <Button variant="secondary" className={styles.closeButton} onClick={onClose}>
+          x
+        </Button>
       </div>
     </div>
   );

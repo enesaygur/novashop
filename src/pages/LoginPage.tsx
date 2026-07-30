@@ -4,6 +4,13 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { loginSchema } from "../validations/authSchemas";
 import { AuthError } from "../context/auth/authErrors";
+import Input from "../components/common/Input/Input";
+import Button from "../components/common/Button/Button";
+
+interface FieldErrors {
+  email?: string;
+  password?: string;
+}
 function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,13 +20,20 @@ function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setError("");
+    setFieldErrors({});
 
     const result = loginSchema.safeParse({ email, password });
     if (!result.success) {
-      setError(result.error.issues[0].message);
+      const formattedErrors = result.error.flatten().fieldErrors;
+      setFieldErrors({
+        email: formattedErrors.email?.[0],
+        password: formattedErrors.password?.[0],
+      });
       return;
     }
 
@@ -42,22 +56,29 @@ function LoginPage() {
             <p>{error}</p>
           </div>
         )}
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
+        <Input
+          label="Email"
+          name="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setFieldErrors({});
+          }}
+          error={fieldErrors.email}
         />
 
-        <label htmlFor="password">Password</label>
-        <input
+        <Input
+          label="Password"
+          name="password"
           type="password"
-          id="password"
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={(event) => {
+            setPassword(event.target.value);
+            setFieldErrors({});
+          }}
+          error={fieldErrors.password}
         />
-        <button type="submit">Login</button>
+        <Button type="submit">Login</Button>
         <p>
           Don't have an account? <Link to="/register">Register</Link>
         </p>

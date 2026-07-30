@@ -9,6 +9,7 @@ import styles from "./AdminProductsPage.module.css";
 import ProductForm from "../components/admin/ProductForm";
 import Modal from "../components/common/Modal";
 import { toast } from "react-hot-toast";
+import Button from "../components/common/Button/Button";
 function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -108,12 +109,12 @@ function AdminProductsPage() {
       <div className={styles.header}>
         <h1>Admin Products</h1>
 
-        <button
+        <Button
           onClick={() => setIsFormOpen(true)}
           className={styles.addButton}
         >
           Add Product
-        </button>
+        </Button>
       </div>
       <div className={styles.search}>
         <input
@@ -198,7 +199,8 @@ function AdminProductsPage() {
 
                   <td>
                     <div className={styles.actions}>
-                      <button
+                      <Button
+                        variant="secondary"
                         className={styles.editButton}
                         onClick={() => {
                           setEditingProduct(product);
@@ -207,13 +209,14 @@ function AdminProductsPage() {
                         }}
                       >
                         Edit
-                      </button>
-                      <button
+                      </Button>
+                      <Button
+                        variant="danger"
                         className={styles.deleteButton}
                         onClick={() => setProductToDelete(product)}
                       >
                         Delete
-                      </button>
+                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -230,8 +233,9 @@ function AdminProductsPage() {
               <strong>{productToDelete?.title}</strong>?
             </p>
             <div className={styles.modalActions}>
-              <button onClick={() => setProductToDelete(null)}>Cancel</button>
-              <button
+              <Button variant="secondary" onClick={() => setProductToDelete(null)}>Cancel</Button>
+              <Button
+                variant="danger"
                 onClick={() => {
                   if (!productToDelete) return;
                   handleDelete(productToDelete.id);
@@ -239,27 +243,27 @@ function AdminProductsPage() {
                 }}
               >
                 Delete
-              </button>
+              </Button>
             </div>
           </Modal>
           <div className={styles.pagination}>
-            <button
+            <Button
               onClick={() => setCurrentPage((page) => Math.max(page - 1, 1))}
               disabled={currentPage === 1}
             >
               Previous
-            </button>
+            </Button>
             <span>
               Page {currentPage} / {totalPages || 1}
             </span>
-            <button
+            <Button
               onClick={() =>
                 setCurrentPage((page) => Math.min(page + 1, totalPages))
               }
               disabled={currentPage === totalPages}
             >
               Next
-            </button>
+            </Button>
           </div>
         </div>
       )}

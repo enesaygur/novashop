@@ -5,6 +5,14 @@ import type React from "react";
 import { useState } from "react";
 import { registerSchema } from "../validations/authSchemas";
 import { AuthError } from "../context/auth/authErrors";
+import Input from "../components/common/Input/Input";
+import Button from "../components/common/Button/Button";
+
+interface FieldErrors {
+  name?: string;
+  email?: string;
+  password?: string;
+}
 function RegisterPage() {
   const navigate = useNavigate();
   const { register } = useAuth();
@@ -13,12 +21,20 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setError("");
+    setFieldErrors({});
     const result = registerSchema.safeParse({ name, email, password });
     if (!result.success) {
-      setError(result.error.issues[0].message);
+      const formattedErrors = result.error.flatten().fieldErrors;
+      setFieldErrors({
+        name: formattedErrors.name?.[0],
+        email: formattedErrors.email?.[0],
+        password: formattedErrors.password?.[0],
+      });
       return;
     }
 
@@ -45,36 +61,40 @@ function RegisterPage() {
 
         {error && <div className={styles.error}>{error}</div>}
 
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          id="name"
+        <Input
+          label="Name"
+          name="name"
           value={name}
           onChange={(event) => {
             setName(event.target.value);
             setError("");
           }}
-          required
+          error={fieldErrors.name}
         />
 
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          id="email"
+        <Input
+          label="Email"
+          name="email"
           value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
+          onChange={(event) => {
+            setEmail(event.target.value);
+            setError("");
+          }}
+          error={fieldErrors.email}
         />
 
-        <label htmlFor="password">Password</label>
-        <input
+        <Input
+          label="Password"
+          name="password"
           type="password"
-          id="password"
           value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
+          onChange={(event) => {
+            setPassword(event.target.value);
+            setError("");
+          }}
+          error={fieldErrors.password}
         />
-        <button type="submit">Register</button>
+        <Button type="submit">Register</Button>
 
         <p>
           Already have an account? <Link to="/login">Login</Link>

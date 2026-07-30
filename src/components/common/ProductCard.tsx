@@ -3,6 +3,8 @@ import type { Product } from "../../types/Product";
 import styles from "./ProductCard.module.css";
 import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
+import Card from "./Card/Card";
+import Button from "./Button/Button";
 type ProductCardProps = {
   product: Product;
 };
@@ -10,7 +12,7 @@ function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart();
   const { addItem: addToWishlist } = useWishlist();
   return (
-    <article className={styles.card}>
+    <Card className={styles.card}>
       <Link to={`/products/${product.id}`} className={styles.link}>
         <img
           className={styles.image}
@@ -25,13 +27,9 @@ function ProductCard({ product }: ProductCardProps) {
           <p>Stock: {product.stock}</p>
         </div>
       </Link>
-      <button type="button" onClick={() => addItem(product)}>
-        Add to cart
-      </button>
-      <button type="button" onClick={() => addToWishlist(product)}>
-        Add to wishlist
-      </button>
-    </article>
+      <Button onClick={() => addItem(product)}>Add to cart</Button>
+      <Button onClick={() => addToWishlist(product)}>Add to wishlist</Button>
+    </Card>
   );
 }
 

@@ -3,6 +3,7 @@ import { getUsers } from "../context/auth/authStorage";
 import { getOrders } from "../utils/orderStorage";
 import styles from "./AdminDashboardPage.module.css";
 import { Link } from "react-router";
+import Card from "../components/common/Card/Card";
 function AdminDashboardPage() {
   const users = getUsers();
   const orders = getOrders();
@@ -22,20 +23,20 @@ function AdminDashboardPage() {
       <Link to="/admin/products">Manage Products</Link>
 
       <div className={styles.stats}>
-        <div className={styles.card}>
+        <Card>
           <h2>Total Users</h2>
           <p>{stats.totalUsers}</p>
-        </div>
+        </Card>
 
-        <div className={styles.card}>
+        <Card>
           <h2>Total Orders</h2>
           <p>{stats.totalOrders}</p>
-        </div>
+        </Card>
 
-        <div className={styles.card}>
+        <Card>
           <h2>Total Revenue</h2>
           <p>${stats.totalRevenue.toFixed(2)}</p>
-        </div>
+        </Card>
       </div>
     </div>
   );

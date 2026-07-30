@@ -5,6 +5,8 @@ import { useCart } from "../../hooks/useCart";
 import { useNavigate } from "react-router";
 import { saveOrder } from "../../utils/orderStorage";
 import { useAuth } from "../../hooks/useAuth";
+import Input from "../common/Input/Input";
+import Button from "../common/Button/Button";
 
 function CheckoutForm() {
   const navigate = useNavigate();
@@ -80,66 +82,43 @@ function CheckoutForm() {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h2>Shipping Information</h2>
-      <label>
-        Full Name
-        <input
-          type="text"
-          name="fullName"
-          value={form.fullName}
-          onChange={handleChange}
-        />
-        {errors.fullName && (
-          <span className={styles.error}>{errors.fullName}</span>
-        )}
-      </label>
+      <Input
+        label="Full Name"
+        name="fullName"
+        value={form.fullName}
+        onChange={handleChange}
+        error={errors.fullName}
+      />
+      <Input
+        label="Email"
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+        error={errors.email}
+      />
+      <Input 
+      label="Address"
+      name="address"
+      value={form.address}
+      onChange={handleChange}
+      error={errors.address}
+      />
+      <Input 
+      label="City"
+      name="city"
+      value={form.city}
+      onChange={handleChange}
+      error={errors.city}
+      />
+      <Input 
+      label="Postal Code"
+      name="postalCode"
+      value={form.postalCode}
+      onChange={handleChange}
+      error={errors.postalCode}
+      />
 
-      <label>
-        Email
-        <input
-          type="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-        />
-        {errors.email && <span className={styles.error}>{errors.email}</span>}
-      </label>
-
-      <label>
-        Address
-        <input
-          type="text"
-          name="address"
-          value={form.address}
-          onChange={handleChange}
-        />
-        {errors.address && (
-          <span className={styles.error}>{errors.address}</span>
-        )}
-      </label>
-
-      <label>
-        City
-        <input
-          type="text"
-          name="city"
-          value={form.city}
-          onChange={handleChange}
-        />
-      </label>
-
-      <label>
-        Postal Code
-        <input
-          type="text"
-          name="postalCode"
-          value={form.postalCode}
-          onChange={handleChange}
-        />
-        {errors.postalCode && (
-          <span className={styles.error}>{errors.postalCode}</span>
-        )}
-      </label>
-      <button type="submit">Place Order</button>
+      <Button type="submit">Place Order</Button>
     </form>
   );
 }
