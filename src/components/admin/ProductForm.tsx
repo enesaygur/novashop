@@ -1,21 +1,15 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import type { Product } from "../../types/Product";
 import styles from "./ProductForm.module.css";
 import { productSchema } from "../../validations/productSchema";
 import Input from "../common/Input/Input";
 import Button from "../common/Button/Button";
+import type { z } from "zod";
 
-type ProductFormState = {
-  title: string;
-  description: string;
-  price: string;
-  discountPercentage: string;
-  rating: string;
-  stock: string;
-  brand: string;
-  category: string;
-  thumbnail: string;
-};
+type ProductFormInput = z.input<typeof productSchema>;
+type ProductFormData = z.output<typeof productSchema>;
 interface ProductFormProps {
   initialValues?: Partial<Product>;
   submitLabel?: string;
@@ -23,7 +17,7 @@ interface ProductFormProps {
   onCancel: () => void;
 }
 
-function buildInitialState(initialValues?: Partial<Product>): ProductFormState {
+function buildInitialState(initialValues?: Partial<Product>): ProductFormInput {
   return {
     title: initialValues?.title || "",
     description: initialValues?.description || "",
@@ -40,130 +34,104 @@ function buildInitialState(initialValues?: Partial<Product>): ProductFormState {
 function ProductForm({
   initialValues,
   submitLabel = "Create",
-  onSubmit,
+  onSubmit: onProductSubmit,
   onCancel,
 }: ProductFormProps) {
-  const [form, setForm] = useState<ProductFormState>(() =>
-    buildInitialState(initialValues),
-  );
-  const [errors, setErrors] = useState<
-    Partial<Record<keyof ProductFormState, string>>
-  >({});
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    const validationResult = productSchema.safeParse({ ...form });
-    if (!validationResult.success) {
-      const fieldErrors = validationResult.error.flatten().fieldErrors;
-      setErrors({
-        title: fieldErrors.title?.[0],
-        description: fieldErrors.description?.[0],
-        price: fieldErrors.price?.[0],
-        discountPercentage: fieldErrors.discountPercentage?.[0],
-        rating: fieldErrors.rating?.[0],
-        stock: fieldErrors.stock?.[0],
-        brand: fieldErrors.brand?.[0],
-        category: fieldErrors.category?.[0],
-        thumbnail: fieldErrors.thumbnail?.[0],
-      });
-      return;
-    }
-    setErrors({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<ProductFormInput, unknown, ProductFormData>({
+    resolver: zodResolver(productSchema),
+    defaultValues: buildInitialState(initialValues),
+  });
+  const thumbnail = watch("thumbnail");
+  function onSubmit(data: ProductFormData) {
     const newProduct: Product = {
       id: initialValues?.id ?? Date.now(),
-      title: form.title.trim(),
-      description: form.description.trim(),
-      price: Number(form.price),
-      discountPercentage: Number(form.discountPercentage) || 0,
-      rating: Number(form.rating) || 0,
-      stock: Number(form.stock) || 0,
-      brand: form.brand.trim() || "novashop",
-      category: form.category.trim(),
-      thumbnail: form.thumbnail.trim(),
+      title: data.title.trim(),
+      description: data.description.trim(),
+      price: Number(data.price),
+      discountPercentage: Number(data.discountPercentage) || 0,
+      rating: Number(data.rating) || 0,
+      stock: Number(data.stock) || 0,
+      brand: data.brand.trim() || "novashop",
+      category: data.category.trim(),
+      thumbnail: data.thumbnail.trim(),
     };
 
-    onSubmit(newProduct);
+    onProductSubmit(newProduct);
 
     if (!initialValues) {
-      setForm(buildInitialState());
+      reset(buildInitialState());
     }
-  }
-
-  function updateField(field: keyof ProductFormState, value: string) {
-    setForm((previous) => ({
-      ...previous,
-      [field]: value,
-    }));
   }
 
   useEffect(() => {
-    setForm(buildInitialState(initialValues));
-  }, [initialValues]);
+    reset(buildInitialState(initialValues));
+  }, [initialValues, reset]);
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
+    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <h2>{initialValues ? "Edit Product" : "Create Product"}</h2>
       <Input
         label="Title"
-        name="title"
-        value={form.title}
-        onChange={(e) => updateField("title", e.target.value)}
-        error={errors.title}
+        id="title"
+        {...register("title")}
+        error={errors?.title?.message}
       />
       <Input
         label="Description"
-        name="description"
-        value={form.description}
-        onChange={(e) => updateField("description", e.target.value)}
-        error={errors.description}
+        id="description"
+        {...register("description")}
+        error={errors?.description?.message}
       />
       <div className={styles.row}>
         <Input
           label="Price"
-          name="price"
-          value={form.price}
-          onChange={(e) => updateField("price", e.target.value)}
-          error={errors.price}
+          id="price"
+          type="number"
+          {...register("price")}
+          error={errors?.price?.message}
         />
         <Input
           label="Stock"
-          name="stock"
-          value={form.stock}
-          onChange={(e) => updateField("stock", e.target.value)}
-          error={errors.stock}
+          id="stock"
+          type="number"
+          {...register("stock")}
+          error={errors?.stock?.message}
         />
       </div>
 
       <div className={styles.row}>
         <Input
           label="Brand"
-          name="brand"
-          value={form.brand}
-          onChange={(e) => updateField("brand", e.target.value)}
-          error={errors.brand}
+          id="brand"
+          {...register("brand")}
+          error={errors?.brand?.message}
         />
 
         <Input
           label="Category"
-          name="category"
-          value={form.category}
-          onChange={(e) => updateField("category", e.target.value)}
-          error={errors.category}
+          id="category"
+          {...register("category")}
+          error={errors?.category?.message}
         />
       </div>
 
       <div className={styles.group}>
         <Input
           label="Thumbnail"
-          name="thumbnail"
-          value={form.thumbnail}
-          onChange={(e) => updateField("thumbnail", e.target.value)}
-          error={errors.thumbnail}
+          id="thumbnail"
+          {...register("thumbnail")}
+          error={errors?.thumbnail?.message}
         />
         <div className={styles.thumbnail}>
-          {form.thumbnail && (
+          {thumbnail && (
             <img
-              src={form.thumbnail}
+              src={thumbnail}
               alt="Preview"
               className={styles.previewImage}
               onError={(e) => (e.currentTarget.style.display = "none")}
@@ -174,7 +142,7 @@ function ProductForm({
 
       <div className={styles.actions}>
         <Button type="submit">{submitLabel}</Button>
-        <Button variant="secondary" onClick={onCancel}>
+        <Button type="button" variant="secondary" onClick={onCancel}>
           Cancel
         </Button>
       </div>
