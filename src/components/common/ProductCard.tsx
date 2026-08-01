@@ -5,6 +5,7 @@ import { useCart } from "../../hooks/useCart";
 import { useWishlist } from "../../hooks/useWishlist";
 import Card from "./Card/Card";
 import Button from "./Button/Button";
+import { memo } from "react";
 type ProductCardProps = {
   product: Product;
 };
@@ -33,4 +34,4 @@ function ProductCard({ product }: ProductCardProps) {
   );
 }
 
-export default ProductCard;
+export default memo(ProductCard);
