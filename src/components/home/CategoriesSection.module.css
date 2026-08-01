@@ -1,0 +1,47 @@
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.section h2 {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card {
+  padding: 2rem;
+  text-align: center;
+  transition: 0.3s;
+  border: 1px solid #ececec;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  background: #111827;
+  color: white;
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
