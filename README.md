@@ -1,75 +1,140 @@
-# React + TypeScript + Vite
+# 🛍️ NovaShop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern e-commerce application built with **React** and **TypeScript**.
+NovaShop focuses on clean architecture, reusable components, state management, form validation, and a responsive user experience.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Live Demo
 
-## React Compiler
+> *Coming soon*
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Customer
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+* Browse products
+* Product detail page
+* Search products
+* Filter by category
+* Sort products
+* Shopping cart
+* Wishlist
+* Checkout form
+* Responsive design
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Authentication
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* Login
+* Logout
+* Protected routes
 
+### Admin
+
+* Create product
+* Edit product
+* Delete product
+* Product validation with React Hook Form & Zod
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+
+### Routing
+
+* React Router
+
+### Server State
+
+* TanStack Query
+
+### Forms
+
+* React Hook Form
+* Zod
+
+### State Management
+
+* Context API
+* useReducer
+
+### Styling
+
+* CSS Modules
+
+### API
+
+* DummyJSON API
+
+---
+
+## 📁 Project Structure
+
+```text
+src
+│
+├── components
+│   ├── common
+│   ├── admin
+│   ├── home
+│   └── layout
+│
+├── pages
+├── hooks
+├── context
+├── reducers
+├── services
+├── validations
+├── layouts
+├── routes
+├── types
+└── utils
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Installation
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/enesaygur/novashop.git
 
+cd novashop
+
+npm install
+
+npm run dev
 ```
+
+---
+
+## 📚 What I Practiced
+
+During this project I focused on learning modern React development, including:
+
+* Component architecture
+* Reusable UI components
+* Custom Hooks
+* Context API
+* useReducer
+* React Hook Form
+* Zod validation
+* TanStack Query
+* React.memo
+* useMemo
+* Responsive layouts
+* CRUD operations
+* Clean folder structure
+
+---
+
+## 📄 License
+
+This project is created for educational and portfolio purposes.
