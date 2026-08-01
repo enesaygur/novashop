@@ -3,7 +3,6 @@ import type { User } from "../../types/User";
 import { authReducer, initialState } from "./AuthReducer";
 import { AUTH_ACTIONS } from "./authActions";
 import {
-  getUser,
   getUsers,
   removeUser,
   saveUser,
